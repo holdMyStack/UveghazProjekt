@@ -1,0 +1,71 @@
+﻿namespace UveghazProjekt
+{
+	internal class UveghazRacs
+	{
+		private int meret;
+		private Cella[,] racs;
+
+		public UveghazRacs(int meret)
+		{
+			this.meret = meret;
+			this.racs = new Cella[meret, meret];
+
+			for (int i = 0; i < meret; i++)
+			{
+				for (int j = 0; j < meret; j++)
+				{
+					this.racs[i, j] = new Cella(i, j);
+				}
+			}
+		}
+
+		public int Meret { get => meret; }
+
+		public Cella CellaLekerdez(int x, int y)
+		{
+			return racs[y, x];
+		}
+
+		public bool Telepit(int x, int y, NovenyFaj faj, int mennyiseg)
+		{
+			Cella cella = CellaLekerdez(x, y);
+			return cella.Telepit(faj, mennyiseg);
+		}
+
+		public void Noveles(int x, int y, int mennyiseg)
+		{
+			Cella cella = CellaLekerdez(x, y);
+			cella.Noveles(mennyiseg);
+		}
+		
+		public void Csokkentes(int x, int y, int mennyiseg)
+		{
+			Cella cella = CellaLekerdez(x, y);
+			cella.Csokkentes(mennyiseg);
+		}
+
+		public void CellaUrit(int x, int y)
+		{
+			Cella cella = CellaLekerdez(x, y);
+			cella.Urit();
+		}
+
+		public List<Cella> Szomszedok(int x, int y)
+		{
+			List<Cella> szomszedok = new List<Cella>();
+
+			if (x - 1 >= 0) szomszedok.Add(CellaLekerdez(x - 1, y));
+			if (x + 1 < meret) szomszedok.Add(CellaLekerdez(x + 1, y));
+			
+			if (y - 1 >= 0) szomszedok.Add(CellaLekerdez(x, y - 1));
+			if (y + 1 < meret) szomszedok.Add(CellaLekerdez(x, y + 1));
+
+			return szomszedok;
+		}
+
+		public void TerkepKiir()
+		{
+
+		}
+	}
+}

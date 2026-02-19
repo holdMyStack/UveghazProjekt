@@ -1,0 +1,71 @@
+﻿namespace UveghazProjekt
+{
+	internal class Cella
+	{
+		private int x;
+		private int y;
+		private int egyedszam;
+
+		private NovenyFaj novenyFaj;
+		private List<Szenzor> szenzorok;
+		private List<Riasztas> riasztasok;
+
+		public Cella(int x, int y)
+		{
+			this.x = x;
+			this.y = y;
+			this.egyedszam = 0;
+			this.novenyFaj = null;
+			this.szenzorok = new List<Szenzor>();
+			this.riasztasok = new List<Riasztas>();
+		}
+
+		public int X { get => x; }
+		public int Y { get => y; }
+		public NovenyFaj NovenyFaj { get => novenyFaj; }
+		public int Egyedszam { get => egyedszam; }
+		public List<Szenzor> Szenzorok { get => szenzorok; }
+		public List<Riasztas> Riasztasok { get => riasztasok; }
+
+		public bool Ures { get => egyedszam <= 0; }
+
+		public bool Telepit(NovenyFaj faj, int mennyiseg)
+		{
+			if (Ures)
+			{
+				egyedszam += mennyiseg;
+				return true;
+			}
+			
+			if (novenyFaj == faj)
+			{
+				novenyFaj = faj;
+				egyedszam = mennyiseg;
+				return true;
+			}
+
+			return false;
+		}
+
+		public void Noveles(int mennyiseg)
+		{
+			egyedszam += mennyiseg;
+		}
+
+		public void Csokkentes(int mennyiseg)
+		{
+			egyedszam -= mennyiseg;
+
+			if (egyedszam <= 0)
+			{
+				Urit();
+			}
+		}
+
+		public void Urit()
+		{
+			egyedszam = 0;
+			novenyFaj = null;
+		}
+	}
+}

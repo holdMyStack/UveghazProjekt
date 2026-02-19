@@ -4,7 +4,10 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            UveghazRacs racs = new UveghazRacs(5);
+
+            Adattar tar = new Adattar(racs);
+
         }
     }
 }
