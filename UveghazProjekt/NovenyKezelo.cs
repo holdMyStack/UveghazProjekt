@@ -2,19 +2,25 @@
 {
 	internal class NovenyKezelo
 	{
-		private List<NovenyFaj> novenyFajok;
+		private Dictionary<string, NovenyFaj> novenyFajok;
 		private UveghazRacs racs;
 
 		public NovenyKezelo(UveghazRacs racs)
 		{
 			this.racs = racs;
 
-			novenyFajok = new List<NovenyFaj>();
+			novenyFajok = new Dictionary<string, NovenyFaj>();
 		}
 
-		public void NovenyFajHozzaad()
+		public void NovenyFajHozzaad(NovenyFaj faj)
 		{
+			novenyFajok[faj.Azonosito] = faj;
+		}
 
+		public bool Telepit(string fajAzonosito, int x, int y, int mennyiseg)
+		{
+			NovenyFaj faj = novenyFajok[fajAzonosito];
+			return racs.Telepit(x, y, faj, mennyiseg);
 		}
 	}
 }
