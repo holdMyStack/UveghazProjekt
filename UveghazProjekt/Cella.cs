@@ -31,16 +31,11 @@
 
 		public bool Telepit(NovenyFaj faj, int mennyiseg)
 		{
-			if (Ures)
-			{
-				egyedszam += mennyiseg;
-				return true;
-			}
-			
-			if (novenyFaj == faj)
+			if (Ures || novenyFaj == faj)
 			{
 				novenyFaj = faj;
-				egyedszam = mennyiseg;
+				egyedszam += mennyiseg;
+
 				return true;
 			}
 
