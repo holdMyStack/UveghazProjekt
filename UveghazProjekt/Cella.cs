@@ -62,5 +62,15 @@
 			egyedszam = 0;
 			novenyFaj = null;
 		}
+
+		public override string ToString()
+		{
+			if (Ures)
+			{
+				return " üres ";
+			}
+
+			return $"{novenyFaj.Nev} x{egyedszam}";
+		}
 	}
 }
