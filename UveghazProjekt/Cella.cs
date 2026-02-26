@@ -5,6 +5,7 @@
 		private int x;
 		private int y;
 		private int egyedszam;
+		private int egeszsegAllapot;
 
 		private NovenyFaj novenyFaj;
 		private List<Szenzor> szenzorok;
@@ -24,6 +25,7 @@
 		public int Y { get => y; }
 		public NovenyFaj NovenyFaj { get => novenyFaj; }
 		public int Egyedszam { get => egyedszam; }
+		public int EgeszsegAllapot { get => egeszsegAllapot; }
 		public List<Szenzor> Szenzorok { get => szenzorok; }
 		public List<Riasztas> Riasztasok { get => riasztasok; }
 
@@ -33,6 +35,11 @@
 		{
 			if (Ures || novenyFaj == faj)
 			{
+				if (Ures)
+				{
+					egeszsegAllapot = 5;
+				}
+
 				novenyFaj = faj;
 				egyedszam += mennyiseg;
 
@@ -59,6 +66,7 @@
 
 		public void Urit()
 		{
+			egeszsegAllapot = 0;
 			egyedszam = 0;
 			novenyFaj = null;
 		}

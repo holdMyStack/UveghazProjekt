@@ -9,7 +9,7 @@
 
             NovenyFaj tulipan = new NovenyFaj("Tulipán", 100, 20, 1, 2, 10);
 
-            racs.Telepit(2, 2, tulipan, 100);
+            racs.Telepit(2, 2, tulipan, 3);
             racs.TerkepKiir();
         }
     }
