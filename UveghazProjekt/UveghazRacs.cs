@@ -10,6 +10,11 @@
 			this.meret = meret;
 			this.racs = new Cella[meret, meret];
 
+			Parcellaz();
+		}
+
+		private void Parcellaz()
+		{
 			for (int i = 0; i < meret; i++)
 			{
 				for (int j = 0; j < meret; j++)
