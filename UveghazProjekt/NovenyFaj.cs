@@ -28,5 +28,21 @@
 		public int OptimalisSuruseg { get => optimalisSuruseg; }
 		public int MinSuruseg { get => minSuruseg; }
 		public int MaxSuruseg { get => maxSuruseg; }
+
+		// Haldoklik -> Ideális
+		// -3 -> +3
+		public int KornyezetIdealissag(int egyedSzam, int homerseklet, int talajNedvesseg)
+		{
+			int idealitas = 0;
+
+			if (egyedSzam < minSuruseg) return -3;
+			if (egyedSzam > maxSuruseg) return -3;
+
+			idealitas += (optimalisSuruseg != egyedSzam) ? -1 : 1;
+			idealitas += (homerseklet != idealHomerseklet) ? -1 : 1;
+			idealitas += (talajNedvesseg != idealTalajnedvesseg) ? -1 : 1;
+
+			return idealitas;
+		}
 	}
 }
