@@ -17,10 +17,10 @@
 			novenyFajok[faj.Azonosito] = faj;
 		}
 
-		public bool Telepit(string fajAzonosito, int x, int y, int mennyiseg)
+		public void Telepit(string fajAzonosito, int x, int y, int mennyiseg)
 		{
 			NovenyFaj faj = novenyFajok[fajAzonosito];
-			return racs.Telepit(x, y, faj, mennyiseg);
+			racs.Telepit(x, y, faj, mennyiseg);
 		}
 	}
 }

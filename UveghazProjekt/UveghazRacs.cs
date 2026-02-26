@@ -31,10 +31,18 @@
 			return racs[y, x];
 		}
 
-		public bool Telepit(int x, int y, NovenyFaj faj, int mennyiseg)
+		public void Telepit(int x, int y, NovenyFaj faj, int mennyiseg)
 		{
 			Cella cella = CellaLekerdez(x, y);
-			return cella.Telepit(faj, mennyiseg);
+			bool siker = cella.Telepit(faj, mennyiseg);
+
+			if (siker)
+			{
+				Console.WriteLine($"({x+1}; {y+1}) A növény sikeresen települt.");
+			} else
+			{
+				Console.WriteLine($"({x+1}; {y+1}) A növény telepítése sikertelen.");
+			}
 		}
 
 		public void Noveles(int x, int y, int mennyiseg)

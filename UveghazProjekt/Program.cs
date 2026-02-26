@@ -12,6 +12,9 @@
             racs.Telepit(2, 2, tulipan, 3);
             racs.TerkepKiir();
 
+            Console.ReadKey();
+            Console.Clear();
+
             racs.Csokkentes(2, 2, 1);
 			racs.TerkepKiir();
 		}
