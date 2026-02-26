@@ -40,13 +40,23 @@
 		public void Noveles(int x, int y, int mennyiseg)
 		{
 			Cella cella = CellaLekerdez(x, y);
-			cella.Noveles(mennyiseg);
+
+			if (!cella.Ures)
+			{
+				cella.Noveles(mennyiseg);
+				cella.KiirInformaciok();
+			}
 		}
 
 		public void Csokkentes(int x, int y, int mennyiseg)
 		{
 			Cella cella = CellaLekerdez(x, y);
-			cella.Csokkentes(mennyiseg);
+
+			if (!cella.Ures)
+			{
+				cella.Csokkentes(mennyiseg);
+				cella.KiirInformaciok();
+			}
 		}
 
 		public void CellaUrit(int x, int y)

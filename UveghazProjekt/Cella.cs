@@ -4,7 +4,7 @@
 	{
 		private int x;
 		private int y;
-		private int egyedszam;
+		private int egyedSzam;
 		private int egeszsegAllapot;
 
 		private NovenyFaj novenyFaj;
@@ -15,7 +15,7 @@
 		{
 			this.x = x;
 			this.y = y;
-			this.egyedszam = 0;
+			this.egyedSzam = 0;
 			this.novenyFaj = null;
 			this.szenzorok = new List<Szenzor>();
 			this.riasztasok = new List<Riasztas>();
@@ -24,12 +24,12 @@
 		public int X { get => x; }
 		public int Y { get => y; }
 		public NovenyFaj NovenyFaj { get => novenyFaj; }
-		public int Egyedszam { get => egyedszam; }
+		public int Egyedszam { get => egyedSzam; }
 		public int EgeszsegAllapot { get => egeszsegAllapot; }
 		public List<Szenzor> Szenzorok { get => szenzorok; }
 		public List<Riasztas> Riasztasok { get => riasztasok; }
 
-		public bool Ures { get => egyedszam <= 0; }
+		public bool Ures { get => egyedSzam <= 0; }
 
 		public bool Telepit(NovenyFaj faj, int mennyiseg)
 		{
@@ -41,7 +41,7 @@
 				}
 
 				novenyFaj = faj;
-				egyedszam += mennyiseg;
+				egyedSzam += mennyiseg;
 
 				return true;
 			}
@@ -51,14 +51,14 @@
 
 		public void Noveles(int mennyiseg)
 		{
-			egyedszam += mennyiseg;
+			egyedSzam += mennyiseg;
 		}
 
 		public void Csokkentes(int mennyiseg)
 		{
-			egyedszam -= mennyiseg;
+			egyedSzam -= mennyiseg;
 
-			if (egyedszam <= 0)
+			if (egyedSzam <= 0)
 			{
 				Urit();
 			}
@@ -67,7 +67,7 @@
 		public void Urit()
 		{
 			egeszsegAllapot = 0;
-			egyedszam = 0;
+			egyedSzam = 0;
 			novenyFaj = null;
 		}
 
@@ -78,7 +78,23 @@
 				return " üres ";
 			}
 
-			return $"{novenyFaj.Nev} x{egyedszam}";
+			return $"{novenyFaj.Nev} x{egyedSzam}";
+		}
+
+		public int KornyezetIdealissag()
+		{
+			if (Ures)
+			{
+				return 0;
+			}
+
+			return novenyFaj.KornyezetIdealissag(egyedSzam, 10, 10);
+		}
+
+		public void KiirInformaciok()
+		{
+
+			Console.WriteLine($"({x + 1}; {y + 1}) Ágyás növénye a(z) {novenyFaj.Nev}, egészségi index: {KornyezetIdealissag()}");
 		}
 	}
 }

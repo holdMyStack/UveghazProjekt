@@ -38,7 +38,7 @@
 			if (egyedSzam < minSuruseg) return -3;
 			if (egyedSzam > maxSuruseg) return -3;
 
-			idealitas += (optimalisSuruseg != egyedSzam) ? -1 : 1;
+			idealitas += (egyedSzam != optimalisSuruseg) ? -1 : 1;
 			idealitas += (homerseklet != idealHomerseklet) ? -1 : 1;
 			idealitas += (talajNedvesseg != idealTalajnedvesseg) ? -1 : 1;
 
