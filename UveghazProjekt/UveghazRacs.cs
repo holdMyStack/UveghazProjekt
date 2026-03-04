@@ -1,155 +1,199 @@
 ﻿namespace UveghazProjekt
 {
-	internal class UveghazRacs
-	{
-		private int meret;
-		private Cella[,] racs;
+    internal class UveghazRacs
+    {
+        private int meret;
+        private int homerseklet;
+        private Cella[,] racs;
+        private Logger logger;
 
-		public UveghazRacs(int meret)
-		{
-			this.meret = meret;
-			this.racs = new Cella[meret, meret];
+        public int Homerseklet { get => homerseklet; }
 
-			Parcellaz();
-		}
+        public UveghazRacs(Logger logger, int meret)
+        {
+            this.logger = logger;
+            this.meret = meret;
+            this.racs = new Cella[meret, meret];
 
-		private void Parcellaz()
-		{
-			for (int i = 0; i < meret; i++)
-			{
-				for (int j = 0; j < meret; j++)
-				{
-					this.racs[i, j] = new Cella(i, j);
-				}
-			}
-		}
+            Parcellaz();
+        }
 
-		public int Meret { get => meret; }
+        private void Parcellaz()
+        {
+            for (int i = 0; i < meret; i++)
+            {
+                for (int j = 0; j < meret; j++)
+                {
+                    this.racs[i, j] = new Cella(i, j);
+                }
+            }
+        }
 
-		public Cella CellaLekerdez(int x, int y)
-		{
-			return racs[y, x];
-		}
+        public int Meret { get => meret; }
 
-		public void Telepit(int x, int y, NovenyFaj faj, int mennyiseg)
-		{
-			Cella cella = CellaLekerdez(x, y);
-			bool siker = cella.Telepit(faj, mennyiseg);
+        public Cella CellaLekerdez(int x, int y)
+        {
+            return racs[y, x];
+        }
 
-			if (siker)
-			{
-				Console.WriteLine($"({x+1}; {y+1}) A növény sikeresen települt.");
-			} else
-			{
-				Console.WriteLine($"({x+1}; {y+1}) A növény telepítése sikertelen.");
-			}
-		}
+        public void Telepit(int x, int y, NovenyFaj faj, int mennyiseg)
+        {
+            Cella cella = CellaLekerdez(x, y);
+            bool siker = cella.Telepit(faj, mennyiseg);
 
-		public void Noveles(int x, int y, int mennyiseg)
-		{
-			Cella cella = CellaLekerdez(x, y);
+            if (siker)
+            {
+                logger.WriteLine($"({x + 1}; {y + 1}) A növény sikeresen települt.");
+            }
+            else
+            {
+                logger.WriteLine($"({x + 1}; {y + 1}) A növény telepítése sikertelen.");
+            }
+        }
 
-			if (!cella.Ures)
-			{
-				cella.Noveles(mennyiseg);
-				cella.KiirInformaciok();
-			}
-		}
+        public void Noveles(int x, int y, int mennyiseg)
+        {
+            Cella cella = CellaLekerdez(x, y);
 
-		public void Csokkentes(int x, int y, int mennyiseg)
-		{
-			Cella cella = CellaLekerdez(x, y);
 
-			if (!cella.Ures)
-			{
-				cella.Csokkentes(mennyiseg);
-				cella.KiirInformaciok();
-			}
-		}
+            logger.BeginGroup($"({x + 1}; {y + 1})");
+            if (!cella.Ures)
+            {
+                logger.WriteLine("A cella sikeresen növelve!");
+                cella.Noveles(mennyiseg);
+                cella.KiirInformaciok(logger);
+            }
+            else
+            {
+                logger.WriteLine("Ez a cella üres!");
+            }
+            logger.EndGroup();
+        }
 
-		public void CellaUrit(int x, int y)
-		{
-			Cella cella = CellaLekerdez(x, y);
-			cella.Urit();
-		}
+        public void Csokkentes(int x, int y, int mennyiseg)
+        {
+            Cella cella = CellaLekerdez(x, y);
 
-		public List<Cella> Szomszedok(int x, int y)
-		{
-			List<Cella> szomszedok = new List<Cella>();
+            logger.BeginGroup($"({x + 1}; {y + 1})");
+            if (!cella.Ures)
+            {
+                logger.WriteLine("A cella sikeresen csökkentve!");
+                cella.Csokkentes(mennyiseg);
+                cella.KiirInformaciok(logger);
+            }
+            else
+            {
+                logger.WriteLine("Ez a cella üres!");
+            }
+            logger.EndGroup();
+        }
 
-			if (x - 1 >= 0) szomszedok.Add(CellaLekerdez(x - 1, y));
-			if (x + 1 < meret) szomszedok.Add(CellaLekerdez(x + 1, y));
+        public void CellaUrit(int x, int y)
+        {
+            Cella cella = CellaLekerdez(x, y);
+            cella.Urit();
+        }
 
-			if (y - 1 >= 0) szomszedok.Add(CellaLekerdez(x, y - 1));
-			if (y + 1 < meret) szomszedok.Add(CellaLekerdez(x, y + 1));
+        public void Ontoz(int x, int y, int szazalek)
+        {
+            Cella cella = CellaLekerdez(x, y);
 
-			return szomszedok;
-		}
+            logger.BeginGroup($"({x + 1}; {y + 1})");
+            if (!cella.Ures)
+            {
+                logger.WriteLine("A cella sikeresen öntözve!");
+                cella.Ontoz(szazalek);
+                cella.KiirInformaciok(logger);
+            }
+            else
+            {
+                logger.WriteLine("Ez a cella üres!");
+            }
+            logger.EndGroup();
+        }
 
-		private int[] OszlopMaxNevHossz()
-		{
-			int[] oszlopHosszak = new int[meret];
+        public List<Cella> Szomszedok(int x, int y)
+        {
+            List<Cella> szomszedok = new List<Cella>();
 
-			for (int x = 0; x < meret; x++)
-			{
-				oszlopHosszak[x] = 1;
+            if (x - 1 >= 0) szomszedok.Add(CellaLekerdez(x - 1, y));
+            if (x + 1 < meret) szomszedok.Add(CellaLekerdez(x + 1, y));
 
-				for (int y = 0; y < meret; y++)
-				{
-					Cella cella = CellaLekerdez(x, y);
-					oszlopHosszak[x] = Math.Max(oszlopHosszak[x], cella.ToString().Length);
-				}
-			}
+            if (y - 1 >= 0) szomszedok.Add(CellaLekerdez(x, y - 1));
+            if (y + 1 < meret) szomszedok.Add(CellaLekerdez(x, y + 1));
 
-			return oszlopHosszak;
-		}
+            return szomszedok;
+        }
 
-		public void TerkepKiir()
-		{
-			int[] maxHossz = OszlopMaxNevHossz();
-			string[] vegso = new string[4 * meret];
+        private int[] OszlopMaxNevHossz()
+        {
+            int[] oszlopHosszak = new int[meret];
 
-			for (int y = 0; y < vegso.Length; y++)
-			{
-				vegso[y] = "";
-			}
+            for (int x = 0; x < meret; x++)
+            {
+                oszlopHosszak[x] = 1;
 
-			for (int x = 0; x < meret; x++)
-			{
-				string res = new string(' ', maxHossz[x] + 2);
-				string szegely = new string('═', maxHossz[x] + 2);
+                for (int y = 0; y < meret; y++)
+                {
+                    Cella cella = CellaLekerdez(x, y);
+                    oszlopHosszak[x] = Math.Max(oszlopHosszak[x], cella.ToString().Length);
+                }
+            }
 
-				for (int y = 0; y < meret; y++)
-				{
-					Cella cella = CellaLekerdez(x, y);
-					string tartalom = cella.ToString();
+            return oszlopHosszak;
+        }
 
-					string balOldal = new string(' ', (maxHossz[x] - tartalom.Length) / 2);
-					string jobbOldal = new string(' ', maxHossz[x] - tartalom.Length - balOldal.Length);
+        public string TerkepRajzol()
+        {
+            int[] maxHossz = OszlopMaxNevHossz();
+            string[] vegso = new string[4 * meret];
 
-					vegso[y * 4 + 0] += res;
-					vegso[y * 4 + 1] += $" {balOldal}{tartalom}{jobbOldal} ";
-					vegso[y * 4 + 2] += res;
-					vegso[y * 4 + 3] += szegely;
-				}
+            for (int y = 0; y < vegso.Length; y++)
+            {
+                vegso[y] = "";
+            }
 
-				if (x < meret - 1)
-				{
-					for (int y = 0; y < vegso.Length; y++)
-					{
-						vegso[y] += "║";
-					}
+            for (int x = 0; x < meret; x++)
+            {
+                string res = new string(' ', maxHossz[x] + 2);
+                string szegely = new string('═', maxHossz[x] + 2);
 
-					for (int y = 3; y < vegso.Length; y += 4)
-					{
-						vegso[y] = vegso[y].Substring(0, vegso[y].Length - 1) + "╬";
-					}
-				}
-			}
+                for (int y = 0; y < meret; y++)
+                {
+                    Cella cella = CellaLekerdez(x, y);
+                    string tartalom = cella.ToString();
 
-			vegso[vegso.Length - 1] = "";
+                    string balOldal = new string(' ', (maxHossz[x] - tartalom.Length) / 2);
+                    string jobbOldal = new string(' ', maxHossz[x] - tartalom.Length - balOldal.Length);
 
-			Console.WriteLine(string.Join('\n', vegso));
-		}
-	}
+                    vegso[y * 4 + 0] += res;
+                    vegso[y * 4 + 1] += $" {balOldal}{tartalom}{jobbOldal} ";
+                    vegso[y * 4 + 2] += res;
+                    vegso[y * 4 + 3] += szegely;
+                }
+
+                if (x < meret - 1)
+                {
+                    for (int y = 0; y < vegso.Length; y++)
+                    {
+                        vegso[y] += "║";
+                    }
+
+                    for (int y = 3; y < vegso.Length; y += 4)
+                    {
+                        vegso[y] = vegso[y].Substring(0, vegso[y].Length - 1) + "╬";
+                    }
+                }
+            }
+
+            vegso[vegso.Length - 1] = "";
+
+            return string.Join('\n', vegso);
+        }
+
+        public void TerkepKiir()
+        {
+            Console.WriteLine(TerkepRajzol());
+        }
+    }
 }

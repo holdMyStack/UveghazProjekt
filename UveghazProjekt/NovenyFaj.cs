@@ -20,7 +20,7 @@
 			this.optimalisSuruseg = optimalisSuruseg;
 		}
 
-		public string Azonosito { get => nev.Substring(0, 3); }
+		public string Azonosito { get => nev.Substring(0, 3).ToUpper(); }
 		public string Nev { get => nev; }
 
 		public int IdealTalajnedvesseg { get => idealTalajnedvesseg; }

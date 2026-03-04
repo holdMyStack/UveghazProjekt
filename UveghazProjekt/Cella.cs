@@ -5,7 +5,7 @@
 		private int x;
 		private int y;
 		private int egyedSzam;
-		private int egeszsegAllapot;
+		private int talajNedvesseg;
 
 		private NovenyFaj novenyFaj;
 		private List<Szenzor> szenzorok;
@@ -23,9 +23,9 @@
 
 		public int X { get => x; }
 		public int Y { get => y; }
-		public NovenyFaj NovenyFaj { get => novenyFaj; }
 		public int Egyedszam { get => egyedSzam; }
-		public int EgeszsegAllapot { get => egeszsegAllapot; }
+        public int TalajNedvesseg { get => talajNedvesseg; }
+        public NovenyFaj NovenyFaj { get => novenyFaj; }
 		public List<Szenzor> Szenzorok { get => szenzorok; }
 		public List<Riasztas> Riasztasok { get => riasztasok; }
 
@@ -35,11 +35,6 @@
 		{
 			if (Ures || novenyFaj == faj)
 			{
-				if (Ures)
-				{
-					egeszsegAllapot = 5;
-				}
-
 				novenyFaj = faj;
 				egyedSzam += mennyiseg;
 
@@ -47,6 +42,11 @@
 			}
 
 			return false;
+		}
+
+		public void Ontoz(int szazalek)
+		{
+			talajNedvesseg = szazalek;
 		}
 
 		public void Noveles(int mennyiseg)
@@ -66,7 +66,6 @@
 
 		public void Urit()
 		{
-			egeszsegAllapot = 0;
 			egyedSzam = 0;
 			novenyFaj = null;
 		}
@@ -91,10 +90,9 @@
 			return novenyFaj.KornyezetIdealissag(egyedSzam, 10, 10);
 		}
 
-		public void KiirInformaciok()
+		public void KiirInformaciok(Logger logger)
 		{
-
-			Console.WriteLine($"({x + 1}; {y + 1}) Ágyás növénye a(z) {novenyFaj.Nev}, egészségi index: {KornyezetIdealissag()}");
+            logger.WriteLine($"Ágyás növénye a(z) {novenyFaj.Nev}, egészségi index: {KornyezetIdealissag()}");
 		}
 	}
 }
